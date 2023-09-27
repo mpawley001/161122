@@ -1,0 +1,301 @@
+---
+title: "161122 Assignment C"
+date: "Semester 2, 2023"
+author: "Enter your name here"
+output: 
+  html_document:
+    number_sections: yes
+    code_download: true
+    df_print: paged 
+---
+
+### About this assignment {-}
+
+This assignment covers the material in topic C, including linear models with continuous and/or categorical predictors. If you have completed all the workshops in topic C, you should have seen most of the code you'll need to complete the assignment.
+
+The assignment is assessed and should be your own work. You're welcome to discuss with other students, but submitted work must be your own.
+
+### Instructions {-}
+
+1. Download the .Rmd file by clicking the 'code' button on the top-right of this page.
+
+2. Change the name of the .Rmd file to something like `Surname_StudentID_assignmentC.Rmd`. 
+
+3. Open the file in RStudio. Each question is headed by '`##`'. Insert your code and written answers between the dashed lines below each question, like so.
+
+     ````md
+     ##
+
+     The question is: Make a scatterplot of 1 to 5 vs 6 to 10. How does this make you feel?
+
+
+     ::: {#answer style="color: #297EB1;"}
+
+     ---------
+     
+     <!-- <answer here> -->
+
+     ```{r}`r ''`
+     plot(1:5,6:10)
+     ```
+     
+     This makes me feel slightly patronised, and I'm now questioning my life choices.
+
+     ---------
+     
+     :::
+     ````
+
+4. When you are finished, knit your .Rmd file to HTML and submit the .html file to the Assignment C dropbox on stream.
+
+
+### Notes on grading {-}
+
+1. There are 100 marks in total; 50 marks per section; 10 for each question.
+
+2. There are typically multiple ways to achieve a correct answer for each question. We don't mind how an answer is achieved. As long as there is a clear, logical method used, full marks will be given.
+
+3. We will provide advice if there is a better, faster, or cleaner way to achieve the same thing.
+
+4. There are gold stars available for excellent answers. These do not typically count for final grade, but may make you (and the marker!) feel good.
+
+5. We expect all charts to be appropriately labelled (axes with units if appropriate) and legible to achieve full marks.
+
+6. We don't require charts to be pretty, beyond being correctly labelled and legible. Students are welcome to make them pretty though!
+
+### Set up {-}
+
+```{r setup general, message=FALSE, class.source="bg-success"}
+# Don't change this chunk unless you know what you're doing :)
+# Make sure you've installed each of these packages.
+library(tidyverse)
+library(visreg)
+library(tsibble)
+library(lubridate)
+library(broom)
+# The stuff below changes some aesthetic options for the output
+knitr::opts_chunk$set(message = FALSE) # omit messages from r
+knitr::opts_chunk$set(out.width="70%", fig.width=6, fig.height=4, fig.retina=2) # size graphs
+knitr::opts_chunk$set(class.source="bg-info", class.output="bg-warning") # colour of code boxes
+theme_set(theme_bw())
+```
+
+Do not alter the chunk below. It puts a box around your answers and turns the text blue, which will help with marking.
+
+```{css, echo=TRUE}
+#answer {
+  color: #297EB1;
+  border: 1px solid #000;
+  padding: 10px;
+}
+```
+
+
+##### And now... the questions. {-}
+
+
+---------
+
+
+# Rubbery spider silk
+
+The first section is based on a study of the 'rubberiness' of spider silk. Rubber has a property called 'negative thermal expansion', meaning that it increases in elasticity (gets tighter) under higher temperatures.
+
+Load the file `webs.csv` into R.
+
+
+```{r data1, class.source="bg-success", class.output=""}
+webs <- read_csv(file="https://www.massey.ac.nz/~jcmarsha/161122/data/webs.csv")
+glimpse(webs)
+```
+There are three columns:
+
+`obs` is an observation number     
+`length` is the relative length of the silk after exposure to temperature     
+`temp.C` is the temperature to which the silk was exposed.
+
+The research question is: does the relative length decrease with temperature?
+
+
+##  
+
+Make a ggplot of `length ~ temp.C` and add a 'smooth' line to it. Comment on the pattern. Is there a relationship? Is it linear?
+
+::: {#answer}
+
+<!-- <answer here> -->
+
+```{r 1.1}
+
+```
+
+:::
+
+
+##
+
+Fit a simple linear regression model. Summarise the model, and visualise the model on a plot of the data. Comment on the fit of the model. In particular, is the relationship statistically significant? What proportion of the variation in $y$ is explained by the model?
+
+::: {#answer}
+
+<!-- <answer here> -->
+
+```{r 1.2}
+
+```
+
+:::
+
+
+
+## 
+
+Make the four standard diagnostic plots. Do you see any evidence that any assumptions of linear regression are violated? Are there any problematic outliers?
+
+::: {#answer}
+
+<!-- <answer here> -->
+
+```{r 1.3}
+
+```
+
+:::
+
+
+
+## 
+
+a) In the following equation, replace the values $a$ and $b$ with the appropriate estimates from your model. *Hint: use the `tidy()` function on your model to get a nicer summary.*
+
+$$
+\text{mean}[length] = a + b \times temp.C
+$$
+
+b) Now use the `augment` function (or other) to predict the mean length at a temperature of 30 degrees. Provide 95% confidence *and* prediction intervals for your prediction. Which interval is wider, and why?
+
+::: {#answer}
+
+<!-- <answer here> -->
+
+```{r 1.4}
+
+```
+
+:::
+
+
+## 
+
+Fit an alternative model of `length`, this time as a quadratic function of `temp.C`. A good way to do this is using the `poly` function 
+
+*Hint: the formula `length ~ poly(temp.C, 2)` fits a polynomial of order 2; that is, `y ~ x + x^2`.*
+
+a) Make a summary of the quadratic model. Compare it to the linear model. Which of these would you use to make predictions of silk length based on temperature, and why?
+
+b) Make a plot of the data, with `temp.C` on the x-axis and `length` on the y-axis. Add a line of the predicted mean `length` based on the quadratic model. How does it differ, qualitatively, from the first model?
+
+::: {#answer}
+
+<!-- <answer here> -->
+
+```{r 1.5a}
+
+```
+
+
+```{r 1.5b}
+
+```
+
+:::
+
+
+
+
+# New Zealand incomes
+
+```{r setup2, class.source="bg-success"}
+# Don't change this chunk unless you know what you're doing :)
+nzincome <- 
+  read_csv(file="https://www.massey.ac.nz/~jcmarsha/161122/data/NZIncomes11.csv") |>  
+  mutate(sex = factor(sex)) |> 
+  mutate(ethnicity = factor(ethnicity)) 
+
+nzincome
+```
+
+## 
+
+Produce plots of the weekly income (`income`) versus the variables `ethnicity`, `sex`, `agegrp`,`qualification` and `hours`, ensuring you clearly label axes. Comment on the plots, particularly with respect to whether there is (graphical) evidence for an association with the weekly wages.
+
+
+::: {#answer}
+
+<!-- <answer here> -->
+
+```{r 2.1}
+
+```
+
+:::
+
+
+## 
+
+Fit a model of log weekly income (`income`) as a linear function of the variables `ethnicity`, `sex`, `agegrp`,`qualification` and `hours`.  Peruse the R summary and interpret each significant coefficient at the level 0.05.
+
+
+::: {#answer}
+
+<!-- <answer here> -->
+
+```{r 2.2}
+
+```
+
+:::
+
+## 
+
+Produce model diagnostic plots. Are the assumptions of the linear model met? Explain your reasoning.
+
+::: {#answer}
+
+<!-- <answer here> -->
+
+```{r 2.3}
+
+```
+
+:::
+
+
+## 
+
+Produce a prediction for the weekly income of a 25 years old Asian man with a bachelors degree (qualification level 4) working 40 hours per week along with a 95% prediction interval. Interpret this interval in words that a client may understand.
+
+::: {#answer}
+
+<!-- <answer here> -->
+
+```{r 2.4}
+
+```
+
+:::
+
+
+## 
+
+Refit a multivariable linear model for log weekly income by adding an interaction term between `ethnicity` and `qualification`. Peruse the R summary and discuss your findings.
+
+::: {#answer}
+
+<!-- <answer here> -->
+
+```{r 2.5}
+
+```
+
+:::
